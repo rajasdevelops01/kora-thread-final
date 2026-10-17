@@ -143,51 +143,49 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Col 4: Machine Discovery (GEO Behind the Scenes) */}
+          {/* Col 4: Trust & Transparency */}
           <div className="space-y-3">
             <h4 className="font-serif text-sm font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-[#fc9e7e]" />
-              <span>Machine Discovery</span>
+              <span>Trust &amp; Transparency</span>
             </h4>
             <p className="text-xs text-[#d2c4bc]">
-              Structured knowledge endpoints formatted for search crawlers and AI assistants.
+              Authoritative ground truth facts, cooperative records, and verified product specifications.
             </p>
             <div className="space-y-2 pt-1 text-xs">
-              <a
-                href="/llms.txt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-[#fc9e7e] hover:underline font-mono"
+              <button
+                onClick={() => onNavigate('faqs')}
+                className="text-left text-[#d2c4bc] hover:text-white transition-colors cursor-pointer block"
               >
-                <FileCode className="w-3.5 h-3.5" />
-                <span>/llms.txt</span>
-                <ExternalLink className="w-3 h-3 text-[#d2c4bc]" />
-              </a>
-              <a
-                href="/llms-full.txt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-[#fc9e7e] hover:underline font-mono"
+                &bull; Verified Customer Knowledge Base
+              </button>
+              <button
+                onClick={() => onNavigate('cooperatives')}
+                className="text-left text-[#d2c4bc] hover:text-white transition-colors cursor-pointer block"
               >
-                <FileCode className="w-3.5 h-3.5" />
-                <span>/llms-full.txt</span>
-                <ExternalLink className="w-3 h-3 text-[#d2c4bc]" />
-              </a>
-              <a
-                href="/sitemap.xml"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-[#d2c4bc] hover:underline font-mono"
+                &bull; Weaver Cooperative Provenance
+              </button>
+              <button
+                onClick={() => onNavigate('rewear')}
+                className="text-left text-[#fc9e7e] hover:text-white transition-colors cursor-pointer block font-medium"
               >
-                <FileCode className="w-3.5 h-3.5" />
-                <span>/sitemap.xml</span>
-              </a>
+                &bull; Kora ReWear Circular Program
+              </button>
               <button
                 onClick={onOpenGeoInspector}
                 className="text-left text-[#fc9e7e] hover:text-white transition-colors cursor-pointer block pt-1"
               >
-                &bull; Hackathon Evaluator Audit Tool
+                &bull; GEO Compliance &amp; Audit Tool
               </button>
+              <a
+                href="/sitemap.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-[#80756e] hover:text-white transition-colors pt-1 font-mono text-[11px]"
+              >
+                <FileCode className="w-3.5 h-3.5" />
+                <span>/sitemap.xml</span>
+              </a>
             </div>
           </div>
         </div>

@@ -3,7 +3,8 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { MiniMoth, MiniMothError } from '@minimoth/sdk-node';
-import { GEO_GROUND_TRUTH_FACTS, AUTHORITATIVE_FAQS, LLMS_TXT_CONTENT, GEO_SIMULATOR_TEST_QUERIES } from './src/data/geoFacts';
+import { GEO_GROUND_TRUTH_FACTS, AUTHORITATIVE_FAQS, GEO_SIMULATOR_TEST_QUERIES } from './src/data/geoFacts';
+import { LLM_TXT_STANDARD, getFullLlmText } from './server/llmText';
 import { PRODUCTS } from './src/data/products';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -205,47 +206,34 @@ app.get('/api/auth/session', async (req: Request, res: Response) => {
 // 2. GENERATIVE ENGINE OPTIMIZATION (GEO) & LLM ENDPOINTS
 // ============================================================================
 
-// Standard llms.txt route for AI crawlers and LLM search agents
-app.get('/llms.txt', (req: Request, res: Response) => {
+// Standard llm.txt & llms.txt routes for AI crawlers, LLM search agents, and bots
+const handleLlmTxt = (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
-  res.send(LLMS_TXT_CONTENT);
-});
+  res.send(LLM_TXT_STANDARD);
+};
 
-// Extended llms-full.txt route with complete product specs and cooperative details
-app.get('/llms-full.txt', (req: Request, res: Response) => {
+app.get('/llm.txt', handleLlmTxt);
+app.get('/llms.txt', handleLlmTxt);
+
+// Extended llm-full.txt & llms-full.txt routes with complete product specs and cooperative details
+const handleLlmFullTxt = (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.send(getFullLlmText());
+};
 
-  let fullContent = LLMS_TXT_CONTENT;
-  fullContent += '\n\n## Complete Authoritative Product Catalog\n';
-  PRODUCTS.forEach(p => {
-    fullContent += `\n### ${p.name} (SKU: ${p.sku})
-- Category: ${p.category}
-- Price: ₹${p.price.toLocaleString('en-IN')} INR
-- Fabric: ${p.fabric}
-- Sourcing: ${p.cooperativeOrigin.name} (${p.cooperativeOrigin.location})
-- Sizes: ${p.sizes.join(', ')}
-- Delivery: 4-6 business days across India
-- Returns: 10 days for unworn garments
-- Care: ${p.careInstructions.join('; ')}
-`;
-  });
-
-  fullContent += '\n\n## Verified FAQs for Generative Retrieval\n';
-  AUTHORITATIVE_FAQS.forEach(faq => {
-    fullContent += `\n**Q: ${faq.q}**\nA: ${faq.a}\n`;
-  });
-
-  res.send(fullContent);
-});
+app.get('/llm-full.txt', handleLlmFullTxt);
+app.get('/llms-full.txt', handleLlmFullTxt);
 
 // Standard robots.txt allowing search crawlers and AI assistants
 app.get('/robots.txt', (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.send(`User-agent: *
 Allow: /
+Allow: /llm.txt
 Allow: /llms.txt
+Allow: /llm-full.txt
 Allow: /llms-full.txt
 Allow: /sitemap.xml
 
@@ -314,6 +302,12 @@ app.get('/sitemap.xml', (req: Request, res: Response) => {
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>/llm.txt</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>/llms.txt</loc>
     <lastmod>${now}</lastmod>
     <changefreq>weekly</changefreq>
@@ -367,7 +361,7 @@ app.get('/api/geo/audit', (req: Request, res: Response) => {
     status: 'compliant',
     technicalReadiness: {
       schemaOrgCoverage: 'Active (Organization, ClothingStore, Product, FAQPage, BreadcrumbList)',
-      llmsTxtStandard: 'Active at /llms.txt and /llms-full.txt',
+      llmsTxtStandard: 'Active from backend at /llm.txt, /llms.txt, /llm-full.txt, and /llms-full.txt',
       sitemapStandard: 'Active at /sitemap.xml',
       robotsStandard: 'Active at /robots.txt',
       geographicAnchoring: 'Pune, Maharashtra (IN-MH)',
@@ -403,7 +397,7 @@ app.post('/api/geo/query-simulator', (req: Request, res: Response) => {
     authoritativeAnswer: matchedFact.groundTruth,
     commonHallucination: matchedFact.hallucinationWarning,
     confidence: matchedFact.sourceConfidence,
-    canonicalSource: '/llms.txt',
+    canonicalSource: '/llm.txt',
     groundingCitation: `Kora Threads Ground Truth Knowledge Base [${matchedFact.topic}]`
   });
 });
@@ -439,7 +433,7 @@ async function startServer() {
     console.log(`=======================================================`);
     console.log(`🌸 Kora Threads server running at http://0.0.0.0:${PORT}`);
     console.log(`⚡ MiniMoth API status: ${isUsingDefaultSandboxKey ? 'Sandbox Mode' : 'Configured API Key'}`);
-    console.log(`🤖 GEO llms.txt available at http://localhost:${PORT}/llms.txt`);
+    console.log(`🤖 Backend LLM text available at http://localhost:${PORT}/llm.txt and http://localhost:${PORT}/llms.txt`);
     console.log(`=======================================================`);
   });
 }

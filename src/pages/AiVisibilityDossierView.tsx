@@ -11,7 +11,7 @@ export const AiVisibilityDossierView: React.FC<AiVisibilityDossierViewProps> = (
     {
       num: 1,
       problem: 'AI assistants do not recommend Kora Threads for sustainable handloom/cotton.',
-      solution: 'Implemented llms.txt standard, ClothingStore Schema, and explicit keyword anchoring for pure handloom cotton from Maharashtra and Karnataka.'
+      solution: 'Implemented backend machine knowledge standards, ClothingStore Schema, and explicit keyword anchoring for pure handloom cotton from Maharashtra and Karnataka.'
     },
     {
       num: 2,
@@ -36,7 +36,7 @@ export const AiVisibilityDossierView: React.FC<AiVisibilityDossierViewProps> = (
     {
       num: 6,
       problem: 'The business cannot reliably measure AI referrals, mentions, or citations.',
-      solution: 'Structured machine endpoints (/llms.txt, /api/geo/facts, /api/geo/audit) enable deterministic crawler monitoring and auditability.'
+      solution: 'Backend machine knowledge endpoints (/llm.txt, /llms.txt, /api/geo/facts, /api/geo/audit) enable deterministic crawler monitoring and auditability.'
     },
     {
       num: 7,
@@ -59,7 +59,7 @@ export const AiVisibilityDossierView: React.FC<AiVisibilityDossierViewProps> = (
         </h1>
 
         <p className="text-xs sm:text-base text-[#d2c4bc] max-w-3xl leading-relaxed">
-          How Kora Threads systematically addresses the 7 business challenges of D2C handloom visibility in modern generative search engines, combining Schema.org microdata, the <code>llms.txt</code> standard, and MiniMoth phone identity verification.
+          How Kora Threads systematically addresses the 7 business challenges of D2C handloom visibility in modern generative search engines, combining Schema.org microdata, authoritative backend machine knowledge endpoints, and MiniMoth phone identity verification.
         </p>
 
         <div className="flex flex-wrap gap-3 pt-2">
@@ -72,23 +72,23 @@ export const AiVisibilityDossierView: React.FC<AiVisibilityDossierViewProps> = (
           </button>
 
           <a
-            href="/llms.txt"
+            href="/api/geo/facts"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-3 rounded-xl bg-[#49382d] hover:bg-[#5b483c] text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
           >
             <FileCode className="w-4 h-4" />
-            <span>Inspect /llms.txt</span>
+            <span>Backend Knowledge API (/api/geo/facts)</span>
             <ExternalLink className="w-3 h-3 text-[#d2c4bc]" />
           </a>
 
           <a
-            href="/llms-full.txt"
+            href="/api/geo/audit"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-3 rounded-xl border border-[#d2c4bc]/30 hover:bg-[#49382d] text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
           >
-            <span>Inspect /llms-full.txt</span>
+            <span>Audit Endpoint (/api/geo/audit)</span>
             <ExternalLink className="w-3 h-3 text-[#d2c4bc]" />
           </a>
         </div>

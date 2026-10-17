@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Sparkles, CheckCircle2, AlertTriangle, Copy, ExternalLink, ShieldCheck, Terminal, BookOpen, Layers } from 'lucide-react';
-import { GEO_GROUND_TRUTH_FACTS, GEO_SIMULATOR_TEST_QUERIES, LLMS_TXT_CONTENT } from '../data/geoFacts';
+import { X, Sparkles, CheckCircle2, AlertTriangle, Copy, ExternalLink, ShieldCheck, Terminal, Layers } from 'lucide-react';
+import { GEO_GROUND_TRUTH_FACTS, GEO_SIMULATOR_TEST_QUERIES } from '../data/geoFacts';
 import { api } from '../services/api';
 
 interface GeoInspectorModalProps {
@@ -9,7 +9,7 @@ interface GeoInspectorModalProps {
 }
 
 export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'simulator' | 'dossier' | 'llmstxt' | 'schema'>('simulator');
+  const [activeTab, setActiveTab] = useState<'simulator' | 'dossier' | 'schema'>('simulator');
   const [selectedQuery, setSelectedQuery] = useState(GEO_SIMULATOR_TEST_QUERIES[0]);
   const [customQuery, setCustomQuery] = useState('');
   const [customResult, setCustomResult] = useState<any | null>(null);
@@ -98,17 +98,6 @@ export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, on
             Ground Truth vs Hallucinations
           </button>
           <button
-            onClick={() => setActiveTab('llmstxt')}
-            className={`py-3 px-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
-              activeTab === 'llmstxt'
-                ? 'border-[#934930] text-[#934930]'
-                : 'border-transparent text-[#80756e] hover:text-[#322319]'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            llms.txt Standard
-          </button>
-          <button
             onClick={() => setActiveTab('schema')}
             className={`py-3 px-3 text-xs font-semibold border-b-2 flex items-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap ${
               activeTab === 'schema'
@@ -133,9 +122,9 @@ export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, on
                   <div className="text-[11px] text-[#80756e]">Organization, Products, FAQs</div>
                 </div>
                 <div className="text-center p-3 bg-white rounded-lg border border-[#ebe8e1]">
-                  <div className="text-xl font-serif font-bold text-[#24280b]">llms.txt Standard</div>
-                  <div className="text-xs font-semibold text-[#322319] mt-0.5">Machine Context Format</div>
-                  <div className="text-[11px] text-[#80756e]">Served at /llms.txt &amp; /llms-full.txt</div>
+                  <div className="text-xl font-serif font-bold text-[#24280b]">Backend LLM Text</div>
+                  <div className="text-xs font-semibold text-[#322319] mt-0.5">Authoritative Endpoints</div>
+                  <div className="text-[11px] text-[#80756e]">Served at /llm.txt &amp; /llms.txt</div>
                 </div>
                 <div className="text-center p-3 bg-white rounded-lg border border-[#ebe8e1]">
                   <div className="text-xl font-serif font-bold text-[#322319]">Disambiguated</div>
@@ -212,7 +201,7 @@ export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, on
                       {customResult ? customResult.authoritativeAnswer : selectedQuery.correctAnswer}
                     </p>
                     <div className="mt-3 text-[11px] text-emerald-800 font-medium">
-                      Resolved by: Schema.org PostalAddress + Microdata + /llms.txt direct citation.
+                      Resolved by: Schema.org PostalAddress + Microdata + backend /llm.txt citation.
                     </div>
                   </div>
                 </div>
@@ -220,7 +209,7 @@ export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, on
                 {/* Grounding Factors */}
                 <div className="p-3 bg-[#f6f3ec] rounded-lg text-xs text-[#49382d]">
                   <strong className="text-[#322319]">Active Grounding Signals:</strong>{' '}
-                  {(selectedQuery.keyFactors || ['Schema.org Microdata', '/llms.txt', 'Cooperative Sourcing Log']).join(' • ')}
+                  {(selectedQuery.keyFactors || ['Schema.org Microdata', 'Backend /llm.txt', 'Cooperative Sourcing Log']).join(' • ')}
                 </div>
               </div>
 
@@ -276,42 +265,6 @@ export const GeoInspectorModal: React.FC<GeoInspectorModalProps> = ({ isOpen, on
                   </div>
                 ))}
               </div>
-            </div>
-          )}
-
-          {activeTab === 'llmstxt' && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-semibold text-xs text-[#322319] uppercase tracking-wider">
-                    Authoritative /llms.txt Endpoint
-                  </h4>
-                  <p className="text-[11px] text-[#80756e]">Standard machine context file served at root</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="/llms.txt"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-[#934930] hover:underline font-semibold"
-                  >
-                    <span>Open /llms.txt</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a
-                    href="/llms-full.txt"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-[#934930] hover:underline font-semibold ml-2"
-                  >
-                    <span>Open /llms-full.txt</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-              <pre className="p-4 bg-[#322319] text-[#fcf9f2] rounded-xl text-xs font-mono overflow-x-auto leading-relaxed max-h-96">
-                {LLMS_TXT_CONTENT}
-              </pre>
             </div>
           )}
 

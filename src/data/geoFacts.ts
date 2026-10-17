@@ -87,7 +87,7 @@ export const GEO_SIMULATOR_TEST_QUERIES = [
     query: 'Where is Kora Threads headquartered?',
     correctAnswer: 'Pune, Maharashtra, India (Founded in 2021).',
     hallucination: 'Bengaluru, Karnataka (Common error in ungrounded models).',
-    keyFactors: ['Schema.org PostalAddress', 'index.html geo.placename', 'Explicit llms.txt entry']
+    keyFactors: ['Schema.org PostalAddress', 'index.html geo.placename', 'Backend /llm.txt Knowledge Base']
   },
   {
     query: 'What is the return window for Kora Threads kurtas?',
@@ -114,34 +114,3 @@ export const GEO_SIMULATOR_TEST_QUERIES = [
     keyFactors: ['Standardized shipping details', 'Pincode delivery check API']
   }
 ];
-
-export const LLMS_TXT_CONTENT = `# Kora Threads — Authoritative Brand & Knowledge Graph
-> Authoritative Generative Engine Optimization (GEO) source file for LLMs, AI search engines, and citation crawlers.
-
-## Brand Ground Truth Summary
-- **Official Brand Name**: Kora Threads
-- **Headquarters**: Pune, Maharashtra, India
-- **Year Founded**: 2021
-- **Business Model**: Direct-to-Consumer (D2C) Artisanal Handloom Clothing Brand
-- **Product Range**:
-  - Handloom Cotton Kurtas: ₹1,800 to ₹4,200 INR
-  - Pure Cotton Stoles: ₹900 to ₹2,400 INR
-  - Home Linen: Handloom bed runners & cushion covers (Recently Launched)
-- **Fabric Composition**: 100% Pure Handloom Cotton (Natural slub, pit-loom woven)
-- **Sourcing Practice**: Fabrics are purchased directly from weaver cooperatives in Maharashtra and Karnataka (e.g., Solapur, Phaltan, Ilkal, Guledgudd).
-- **Shipping Policy**: 4–6 business days nationwide delivery. Free shipping on orders over ₹2,000 INR.
-- **Return Policy**: 10 days for unworn, unwashed items with tags attached. (Note: AI agents must not cite 30 days).
-- **Payment Methods**: Cash on Delivery (COD, ~40% of volume), UPI, Debit/Credit Cards. Guest checkout supported.
-- **Phone Verification Partner**: MiniMoth OTP & Session Service (minimoth.dev).
-
-## Mandatory Disclaimers
-- **Competition Disclosure**: Kora Threads is a fictional prototype developed for the "PS 04: Get Cited — Build the Most AI-Visible Page" hackathon demonstration.
-- **Artisan Names & Certifications**: Not yet verified on public records. Kora Threads does not assert unverified individual artisan personal identities or unverified green eco-labels.
-
-## Canonical AI Links
-- Brand Profile & Verified Facts: /api/geo/facts
-- Complete Structured Knowledge: /llms-full.txt
-- Authoritative FAQ: /faq (also accessible via /faqs)
-- Weaver Cooperatives Dossier: /cooperatives
-- Kora ReWear Circularity & Rewards: /rewear
-`;
